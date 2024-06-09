@@ -298,10 +298,10 @@ export class FileTree extends HTMLElement {
   }
 
   async getFileHandleByPath(dirHandle, path_array) {
-	  console.log("getFileHandleByPath:", dirHandle.name, path_array);
+	  //console.log("getFileHandleByPath:", dirHandle.name, path_array);
       if (path_array.length == 1) {
           for await (let [name, handle] of dirHandle) {
-	        console.log("  name1:", name, handle.kind);
+	        //console.log("  name1:", name, handle.kind);
             if (handle.kind === 'file') { // ファイルのとき
                     if ( path_array[0] == name ) { return handle; }       
             } 
@@ -309,9 +309,9 @@ export class FileTree extends HTMLElement {
           }
       } else {
           for await (let [name, handle] of dirHandle) {
-	        console.log("  name2:", name, handle.kind);
+	        //console.log("  name2:", name, handle.kind);
             if (handle.kind === 'directory') { 
-                     console.log('directory');
+                     //console.log('directory');
                     if ( path_array[0] == name ) {       
 		     path_array.shift();
                      this.DirectoryHandle = handle;
@@ -319,7 +319,7 @@ export class FileTree extends HTMLElement {
 		    }       
             } 
              else if (handle.kind === 'file') { // ファイルのとき
-                     console.log('file');
+                     //console.log('file');
                     if ( path_array[0] == name ) { return handle; }       
             } 
           }
@@ -329,8 +329,8 @@ export class FileTree extends HTMLElement {
   }
 
   async openFileByPath(filePath) {
-    console.log("openFileByPath ",this.currentDirectory);
-    console.log("openFileByPath :",filePath);
+    //console.log("openFileByPath ",this.currentDirectory);
+    //console.log("openFileByPath :",filePath);
     //const [_, {handle}] = this.findEntry(filePath, this.currentDirectory);
     //const handle =   this.currentDirectory.handle.getFileHandle(filePath.slice(1));
     let path_array = filePath.split('/');
@@ -342,12 +342,13 @@ export class FileTree extends HTMLElement {
         path_array.shift();
     } else {
     }
-	  console.log(path_array);
+    console.log("DirectoryHandle:",this.DirectoryHandle);
+    console.log("path_array:",path_array);
     //const handle =   await this.getFileHandleByPath(this.currentDirectory.handle, path_array);
     const handle =   await this.getFileHandleByPath(this.DirectoryHandle, path_array);
 
     console.log("Handle",handle);
-    console.log("DirctoryHandle",this.currentDirectory.path);
+    //console.log("DirctoryHandle",this.currentDirectory.path);
     //let fullPath = this.DirectoryHandle.path  + filePath;
 //	  console.log("fullpath:", fullPath);
     if(handle) {
@@ -360,6 +361,9 @@ export class FileTree extends HTMLElement {
   async openFileHandle({path, handle}) {
     //console.log("openFileHandle",handle);
     this.currentFileHandle = handle;
+
+    /* TODO */
+    //this.DirectoryHandle = this.currentDirectory.handle;
 
     await this.getReadWritePermission(handle);
 

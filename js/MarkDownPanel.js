@@ -727,7 +727,7 @@ export class MarkDownPanel {
 
         this.filepath = await this.fileHandle.getFile();
 
-        console.log("Open",this.filepath.name);
+        //console.log("Open",this.filepath.name);
         this.filename_label.innerText = " [ " + this.filepath.name + " ] ";
 
         var reader = new FileReader();
