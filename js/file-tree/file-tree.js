@@ -347,11 +347,13 @@ export class FileTree extends HTMLElement {
     const handle =   await this.getFileHandleByPath(this.DirectoryHandle, path_array);
 
     console.log("Handle",handle);
-
+    console.log("DirctoryHandle",this.currentDirectory.path);
+    //let fullPath = this.DirectoryHandle.path  + filePath;
+//	  console.log("fullpath:", fullPath);
     if(handle) {
       //await this.openFileHandle(handle);
       await this.openFileHandle({ filePath, handle});
-      this.highlightFile(filePath);
+      this.highlightFile(this.currentDirectory.path +filePath);
     }
   }
 
@@ -846,6 +848,9 @@ export class FileTree extends HTMLElement {
   }
 
   highlightFile(filePath) {
+
+    console.log("highlightFile::",filePath);
+
     const [_, fileObj] = this.findEntry(filePath, this.currentDirectory);
 
     if(fileObj) {
