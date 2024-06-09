@@ -297,9 +297,55 @@ export class FileTree extends HTMLElement {
     }
   }
 
+  async getFileHandleByPath(dirHandle, path_array) {
+	  console.log("getFileHandleByPath:", dirHandle.name, path_array);
+      if (path_array.length == 1) {
+          for await (let [name, handle] of dirHandle) {
+	        console.log("  name1:", name, handle.kind);
+            if (handle.kind === 'file') { // ファイルのとき
+                    if ( path_array[0] == name ) { return handle; }       
+            } 
+              
+          }
+      } else {
+          for await (let [name, handle] of dirHandle) {
+	        console.log("  name2:", name, handle.kind);
+            if (handle.kind === 'directory') { 
+                     console.log('directory');
+                    if ( path_array[0] == name ) {       
+		     path_array.shift();
+                     this.DirectoryHandle = handle;
+                     return this.getFileHandleByPath(handle, path_array); 
+		    }       
+            } 
+             else if (handle.kind === 'file') { // ファイルのとき
+                     console.log('file');
+                    if ( path_array[0] == name ) { return handle; }       
+            } 
+          }
+      }
+
+
+  }
+
   async openFileByPath(filePath) {
-    console.log("openFileByPath filePath:",filePath);
-    const [_, {handle}] = this.findEntry(filePath, this.currentDirectory);
+    console.log("openFileByPath ",this.currentDirectory);
+    console.log("openFileByPath :",filePath);
+    //const [_, {handle}] = this.findEntry(filePath, this.currentDirectory);
+    //const handle =   this.currentDirectory.handle.getFileHandle(filePath.slice(1));
+    let path_array = filePath.split('/');
+	  console.log(path_array);
+    let path_array_ = [];
+    if (path_array[0] == '') {
+        path_array.shift();
+    } else if (path_array[0] == '.' ) {
+        path_array.shift();
+    } else {
+    }
+	  console.log(path_array);
+    //const handle =   await this.getFileHandleByPath(this.currentDirectory.handle, path_array);
+    const handle =   await this.getFileHandleByPath(this.DirectoryHandle, path_array);
+
     console.log("Handle",handle);
 
     if(handle) {
@@ -310,7 +356,7 @@ export class FileTree extends HTMLElement {
   }
 
   async openFileHandle({path, handle}) {
-    console.log("openFileHandle",handle);
+    //console.log("openFileHandle",handle);
     this.currentFileHandle = handle;
 
     await this.getReadWritePermission(handle);
@@ -459,7 +505,8 @@ export class FileTree extends HTMLElement {
       //     }
 
       this.currentDirectoryHandle = await window.showDirectoryPicker();
-      console.dir(this.currentDirectoryHandle.name);
+      //console.dir(this.currentDirectoryHandle.name);
+
       //let top = document.querySelector("#topdir");
       let top = this.shadowRoot.querySelector('slot[name="browse-path"]').assignedNodes()[0];
       top.textContent = this.currentDirectoryHandle.name;
@@ -490,7 +537,7 @@ export class FileTree extends HTMLElement {
     };
 
     this.currentDirectory = await this.iterateFiles(this.currentDirectoryHandle, dir);
-
+    this.DirectoryHandle = this.currentDirectory.handle;
     this.loading = false;
 
     this.listFiles(this.currentDirectory, this.fileList);

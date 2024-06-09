@@ -87,11 +87,11 @@ export class MarkDownEditor {
         });
 
         this.editor.on("focus", function () {
-            console.log("focus:" + that.name);
+            //console.log("focus:" + that.name);
             that.active = true;
         });
         this.editor.on("blur", function () {
-            console.log("blur:" + that.name);
+            //console.log("blur:" + that.name);
             that.active = false;
         });
 
@@ -220,7 +220,7 @@ export class MarkDownEditor {
             function change(child){     
 		    //console.log(child.tagName);
 		    if (child.tagName == 'A') {
-		       console.log(child);
+		       //console.log(child);
 			    let href = child.getAttribute("href");
 			    child.setAttribute("href", "#");
 			    

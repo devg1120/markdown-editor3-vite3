@@ -22,7 +22,8 @@ export class MarkDownPanel {
         this.localStorageScrollBarKey = "scroll_bar_settings";
         this.confirmationMessage = this.init_html(this.parent);
 
-        let fc = new FileTreeControl(this);
+        //let fc = new FileTreeControl(this);
+        this.fileTreeControl = new FileTreeControl(this);
 
         //fc.set_ace_editor();
 	    
@@ -367,8 +368,8 @@ export class MarkDownPanel {
 	`;
     }
     toc_switch() {
-        console.log("toc_switch");
-        console.log(this.toc_toggle.checked);
+        //console.log("toc_switch");
+        //console.log(this.toc_toggle.checked);
 
         var toc1 = document.querySelector(this.parent_id + " " + "#toc1");
         var toc_separator1 = document.querySelector(this.parent_id + " " + "#toc-separator1");
@@ -415,8 +416,8 @@ export class MarkDownPanel {
     }
 
     cursor_color_change_() {
-        console.log("cursor_color:" + cursor_color_select.value);
-        console.log(document.styleSheets.length);
+        //console.log("cursor_color:" + cursor_color_select.value);
+        //console.log(document.styleSheets.length);
         /*
    for ( var s = 0; s < document.styleSheets.length; s++) {
        const stylesheet = document.styleSheets[s];
@@ -440,10 +441,10 @@ export class MarkDownPanel {
         const roule34 = document.styleSheets[5].cssRules[34];
         //console.log(roule33);
         //console.log(roule34);
-        console.log(roule33.selectorText);
-        console.log(roule33.cssText);
-        console.log(roule34.selectorText);
-        console.log(roule34.cssText);
+        //console.log(roule33.selectorText);
+        //console.log(roule33.cssText);
+        //console.log(roule34.selectorText);
+        //console.log(roule34.cssText);
         //roule33.cssText = "ace_cursor-layer .ace_cursor { border-left: 5px solid blue; color: blue !important; }";
         //roule34.cssText = ".ace_cursor-layer.ace_overwrite-cursors .ace_cursor { background-color: blue; }";
 
@@ -467,7 +468,7 @@ export class MarkDownPanel {
     }
 
     cursor_color_change() {
-        console.log("cursor_color:" + this.cursor_color_select.value);
+        //console.log("cursor_color:" + this.cursor_color_select.value);
         let cursor_color = this.cursor_color_select.value;
 
         let style_order = [
@@ -685,7 +686,7 @@ export class MarkDownPanel {
         this.filename_label.innerText = " [ " + this.filepath.name + " ] ";
 
         var reader = new FileReader();
-        console.dir(this.filepath);
+        //console.dir(this.filepath);
         reader.readAsText(this.filepath);
         let that = this;
         reader.onload = function (e) {
@@ -722,7 +723,7 @@ export class MarkDownPanel {
          */
 
         this.fileHandle = fh;
-        console.log("*** MarkDownPanel:fn: ", this.fileHandle);
+        //console.log("*** MarkDownPanel:fn: ", this.fileHandle);
 
         this.filepath = await this.fileHandle.getFile();
 
@@ -730,7 +731,7 @@ export class MarkDownPanel {
         this.filename_label.innerText = " [ " + this.filepath.name + " ] ";
 
         var reader = new FileReader();
-        console.dir(this.filepath);
+        //console.dir(this.filepath);
         reader.readAsText(this.filepath);
         let that = this;
         reader.onload = function (e) {
@@ -771,7 +772,7 @@ export class MarkDownPanel {
         /********************************************/
         this.filepath = await newHandle.getFile();
 
-        console.log(this.filepath.name);
+        //console.log(this.filepath.name);
         this.filename_label.innerText = " [ " + this.filepath.name + " ] ";
         this.fileHandle = newHandle;
     }
@@ -1023,7 +1024,9 @@ export class MarkDownPanel {
     }
 
     change_file(href){
-      console.log("MarkDownPanel:change_file::", this.filepath.name, href);
+      console.log("change_file::", this.filepath.name, href);
+      this.fileTreeControl.openFileByPath(href);
+      //this.fileTreeControl.openFileByPath(href.slice(1));
     }
 
     init(content) {

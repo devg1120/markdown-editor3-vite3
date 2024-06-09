@@ -51,8 +51,8 @@ export class FileTreeControl {
   }
 
   openFile = ({ detail }) => {
-    console.log("openFile");
-    console.log(detail.handle);
+    //console.log("openFile");
+    //console.log(detail.handle);
     this.markDownPanel.openFileHandle(detail.handle);
 
     //this.saveButton.disabled = true;
@@ -66,8 +66,8 @@ export class FileTreeControl {
         let name_split = detail.file.name.split(".");
         //console.log("ext:", name_split[name_split.length-1]);
         if (name_split[name_split.length - 1] == "md") {
-           console.log("md:"+ detail.file.name);
-           console.log(contents);
+           //console.log("md:"+ detail.file.name);
+           //console.log(contents);
         }
     }
   }
@@ -242,6 +242,10 @@ export class FileTreeControl {
     textarea.focus();
     textarea.selectionStart = startPos;
     textarea.selectionEnd = endPos;
+  };
+
+  openFileByPath = (path) => {
+      this.fileTree.openFileByPath(path);
   };
 
   openFoundFile = (e) => {
