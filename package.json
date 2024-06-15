@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite --host --port 3000",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fmt": "npx prettier . --write"
   },
   "devDependencies": {
+    "prettier": "3.3.2",
     "vite": "^5.2.0"
   },
   "dependencies": {

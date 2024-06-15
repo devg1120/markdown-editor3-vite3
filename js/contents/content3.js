@@ -1,7 +1,6 @@
-
 export const url = "https://pandao.github.io/editor.md/en.html";
 
-export const content  = `
+export const content = `
 
 https://pandao.github.io/editor.md/en.html
 ---
@@ -324,4 +323,3 @@ Andrew->>China: I am good thanks!
 
 ###End
 `;
-

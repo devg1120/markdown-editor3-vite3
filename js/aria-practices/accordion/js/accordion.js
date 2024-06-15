@@ -5,21 +5,21 @@
  *   Simple accordion pattern example
  */
 
-'use strict';
+"use strict";
 
 class Accordion {
   constructor(domNode) {
-	  console.log(domNode);
+    console.log(domNode);
     this.rootEl = domNode;
-    this.buttonEl = this.rootEl.querySelector('button[aria-expanded]');
+    this.buttonEl = this.rootEl.querySelector("button[aria-expanded]");
 
-    const controlsId = this.buttonEl.getAttribute('aria-controls');
+    const controlsId = this.buttonEl.getAttribute("aria-controls");
     this.contentEl = document.getElementById(controlsId);
 
-    this.open = this.buttonEl.getAttribute('aria-expanded') === 'true';
+    this.open = this.buttonEl.getAttribute("aria-expanded") === "true";
 
     // add event listeners
-    this.buttonEl.addEventListener('click', this.onButtonClick.bind(this));
+    this.buttonEl.addEventListener("click", this.onButtonClick.bind(this));
   }
 
   onButtonClick() {
@@ -36,11 +36,11 @@ class Accordion {
     this.open = open;
 
     // handle DOM updates
-    this.buttonEl.setAttribute('aria-expanded', `${open}`);
+    this.buttonEl.setAttribute("aria-expanded", `${open}`);
     if (open) {
-      this.contentEl.removeAttribute('hidden');
+      this.contentEl.removeAttribute("hidden");
     } else {
-      this.contentEl.setAttribute('hidden', '');
+      this.contentEl.setAttribute("hidden", "");
     }
   }
 
@@ -54,15 +54,11 @@ class Accordion {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function(){
-
-// init accordions
-const accordions = document.querySelectorAll('.accordion h4');
-console.log(accordions);
-accordions.forEach((accordionEl) => {
-
-  new Accordion(accordionEl);
+document.addEventListener("DOMContentLoaded", function () {
+  // init accordions
+  const accordions = document.querySelectorAll(".accordion h4");
+  console.log(accordions);
+  accordions.forEach((accordionEl) => {
+    new Accordion(accordionEl);
+  });
 });
-});
-
-

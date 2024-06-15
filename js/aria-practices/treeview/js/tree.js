@@ -10,7 +10,7 @@
 
 /* global Treeitem */
 
-'use strict';
+"use strict";
 
 /**
  * ARIA Treeview example
@@ -19,7 +19,7 @@
  * @description  after page has loaded initialize all treeitems based on the role=treeitem
  */
 
-window.addEventListener('load', function () {
+window.addEventListener("load", function () {
   var trees = document.querySelectorAll('[role="tree"]');
 
   for (var i = 0; i < trees.length; i++) {
@@ -41,7 +41,7 @@ window.addEventListener('load', function () {
 
 var Tree = function (node) {
   // Check whether node is a DOM element
-  if (typeof node !== 'object') {
+  if (typeof node !== "object") {
     return;
   }
 
@@ -61,7 +61,7 @@ Tree.prototype.init = function () {
     var ti = group;
 
     while (elem) {
-      if (elem.tagName.toLowerCase() === 'li') {
+      if (elem.tagName.toLowerCase() === "li") {
         ti = new Treeitem(elem, tree, group);
         ti.init();
         tree.treeitems.push(ti);
@@ -77,8 +77,8 @@ Tree.prototype.init = function () {
   }
 
   // initialize pop up menus
-  if (!this.domNode.getAttribute('role')) {
-    this.domNode.setAttribute('role', 'tree');
+  if (!this.domNode.getAttribute("role")) {
+    this.domNode.setAttribute("role", "tree");
   }
 
   findTreeitems(this.domNode, this, false);
@@ -90,9 +90,9 @@ Tree.prototype.init = function () {
 
 Tree.prototype.setSelectedToItem = function (treeitem) {
   if (this.selectedItem) {
-    this.selectedItem.domNode.setAttribute('aria-selected', 'false');
+    this.selectedItem.domNode.setAttribute("aria-selected", "false");
   }
-  treeitem.domNode.setAttribute('aria-selected', 'true');
+  treeitem.domNode.setAttribute("aria-selected", "true");
   this.selectedItem = treeitem;
 };
 
@@ -161,7 +161,7 @@ Tree.prototype.setFocusToLastItem = function () {
 
 Tree.prototype.expandTreeitem = function (currentItem) {
   if (currentItem.isExpandable) {
-    currentItem.domNode.setAttribute('aria-expanded', true);
+    currentItem.domNode.setAttribute("aria-expanded", true);
     this.updateVisibleTreeitems();
   }
 };
@@ -186,7 +186,7 @@ Tree.prototype.collapseTreeitem = function (currentItem) {
   }
 
   if (groupTreeitem) {
-    groupTreeitem.domNode.setAttribute('aria-expanded', false);
+    groupTreeitem.domNode.setAttribute("aria-expanded", false);
     this.updateVisibleTreeitems();
     this.setFocusToItem(groupTreeitem);
   }
@@ -203,7 +203,7 @@ Tree.prototype.updateVisibleTreeitems = function () {
     ti.isVisible = true;
 
     while (parent && parent !== this.domNode) {
-      if (parent.getAttribute('aria-expanded') == 'false') {
+      if (parent.getAttribute("aria-expanded") == "false") {
         ti.isVisible = false;
       }
       parent = parent.parentNode;

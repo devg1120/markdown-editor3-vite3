@@ -1,7 +1,6 @@
-
 export const url = "http://marxi.co/";
 
-export const  content  = `
+export const content = `
 
 http://marxi.co/
 -----
@@ -129,4 +128,3 @@ While saving rich HTML content in Evernote, **Marxico** puts the Markdown text i
   [7]: https://twitter.com/gock2
 
 `;
-

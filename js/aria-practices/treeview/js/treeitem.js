@@ -8,7 +8,7 @@
  *           for a tree being used as a file viewer
  */
 
-'use strict';
+"use strict";
 
 /*
  *   @constructor
@@ -23,7 +23,7 @@
 
 var Treeitem = function (node, treeObj, group) {
   // Check whether node is a DOM element
-  if (typeof node !== 'object') {
+  if (typeof node !== "object") {
     return;
   }
 
@@ -33,8 +33,8 @@ var Treeitem = function (node, treeObj, group) {
   this.domNode = node;
   this.label = node.textContent.trim();
 
-  if (node.getAttribute('aria-label')) {
-    this.label = node.getAttribute('aria-label').trim();
+  if (node.getAttribute("aria-label")) {
+    this.label = node.getAttribute("aria-label").trim();
   }
 
   this.isExpandable = false;
@@ -48,8 +48,8 @@ var Treeitem = function (node, treeObj, group) {
   var elem = node.firstElementChild;
 
   while (elem) {
-    if (elem.tagName.toLowerCase() == 'ul') {
-      elem.setAttribute('role', 'group');
+    if (elem.tagName.toLowerCase() == "ul") {
+      elem.setAttribute("role", "group");
       this.isExpandable = true;
       break;
     }
@@ -74,24 +74,24 @@ var Treeitem = function (node, treeObj, group) {
 Treeitem.prototype.init = function () {
   this.domNode.tabIndex = -1;
 
-  if (!this.domNode.getAttribute('role')) {
-    this.domNode.setAttribute('role', 'treeitem');
+  if (!this.domNode.getAttribute("role")) {
+    this.domNode.setAttribute("role", "treeitem");
   }
 
-  this.domNode.addEventListener('keydown', this.handleKeydown.bind(this));
-  this.domNode.addEventListener('click', this.handleClick.bind(this));
-  this.domNode.addEventListener('focus', this.handleFocus.bind(this));
-  this.domNode.addEventListener('blur', this.handleBlur.bind(this));
+  this.domNode.addEventListener("keydown", this.handleKeydown.bind(this));
+  this.domNode.addEventListener("click", this.handleClick.bind(this));
+  this.domNode.addEventListener("focus", this.handleFocus.bind(this));
+  this.domNode.addEventListener("blur", this.handleBlur.bind(this));
 
   if (!this.isExpandable) {
-    this.domNode.addEventListener('mouseover', this.handleMouseOver.bind(this));
-    this.domNode.addEventListener('mouseout', this.handleMouseOut.bind(this));
+    this.domNode.addEventListener("mouseover", this.handleMouseOver.bind(this));
+    this.domNode.addEventListener("mouseout", this.handleMouseOut.bind(this));
   }
 };
 
 Treeitem.prototype.isExpanded = function () {
   if (this.isExpandable) {
-    return this.domNode.getAttribute('aria-expanded') === 'true';
+    return this.domNode.getAttribute("aria-expanded") === "true";
   }
 
   return false;
@@ -108,7 +108,7 @@ Treeitem.prototype.handleKeydown = function (event) {
   }
 
   function printableCharacter(item) {
-    if (char == '*') {
+    if (char == "*") {
       item.tree.expandAllSiblingItems(item);
       flag = true;
     } else {
@@ -132,12 +132,12 @@ Treeitem.prototype.handleKeydown = function (event) {
       case this.keyCode.RETURN:
       case this.keyCode.SPACE:
         var treeitem = event.currentTarget;
-        var label = treeitem.getAttribute('aria-label');
+        var label = treeitem.getAttribute("aria-label");
         if (!label) {
           var child = treeitem.firstElementChild;
           label = child ? child.innerText : treeitem.innerText;
         }
-        document.getElementById('last_action').value = label.trim();
+        document.getElementById("last_action").value = label.trim();
 
         if (!this.isExpandable) this.tree.setFocusToItem(this);
         this.tree.setSelectedToItem(this);
@@ -220,7 +220,7 @@ Treeitem.prototype.handleFocus = function () {
   if (this.isExpandable) {
     node = node.firstElementChild;
   }
-  node.classList.add('focus');
+  node.classList.add("focus");
 };
 
 Treeitem.prototype.handleBlur = function () {
@@ -228,13 +228,13 @@ Treeitem.prototype.handleBlur = function () {
   if (this.isExpandable) {
     node = node.firstElementChild;
   }
-  node.classList.remove('focus');
+  node.classList.remove("focus");
 };
 
 Treeitem.prototype.handleMouseOver = function (event) {
-  event.currentTarget.classList.add('hover');
+  event.currentTarget.classList.add("hover");
 };
 
 Treeitem.prototype.handleMouseOut = function (event) {
-  event.currentTarget.classList.remove('hover');
+  event.currentTarget.classList.remove("hover");
 };

@@ -7,7 +7,7 @@
  *   Desc:   Tablist widget that implements ARIA Authoring Practices
  */
 
-'use strict';
+"use strict";
 
 class TabsAutomatic {
   constructor(groupNode) {
@@ -18,19 +18,19 @@ class TabsAutomatic {
     this.firstTab = null;
     this.lastTab = null;
 
-    this.tabs = Array.from(this.tablistNode.querySelectorAll('[role=tab]'));
+    this.tabs = Array.from(this.tablistNode.querySelectorAll("[role=tab]"));
     this.tabpanels = [];
 
     for (var i = 0; i < this.tabs.length; i += 1) {
       var tab = this.tabs[i];
-      var tabpanel = document.getElementById(tab.getAttribute('aria-controls'));
+      var tabpanel = document.getElementById(tab.getAttribute("aria-controls"));
 
       tab.tabIndex = -1;
-      tab.setAttribute('aria-selected', 'false');
+      tab.setAttribute("aria-selected", "false");
       this.tabpanels.push(tabpanel);
 
-      tab.addEventListener('keydown', this.onKeydown.bind(this));
-      tab.addEventListener('click', this.onClick.bind(this));
+      tab.addEventListener("keydown", this.onKeydown.bind(this));
+      tab.addEventListener("click", this.onClick.bind(this));
 
       if (!this.firstTab) {
         this.firstTab = tab;
@@ -42,22 +42,22 @@ class TabsAutomatic {
   }
 
   setSelectedTab(currentTab, setFocus) {
-    if (typeof setFocus !== 'boolean') {
+    if (typeof setFocus !== "boolean") {
       setFocus = true;
     }
     for (var i = 0; i < this.tabs.length; i += 1) {
       var tab = this.tabs[i];
       if (currentTab === tab) {
-        tab.setAttribute('aria-selected', 'true');
-        tab.removeAttribute('tabindex');
-        this.tabpanels[i].classList.remove('is-hidden');
+        tab.setAttribute("aria-selected", "true");
+        tab.removeAttribute("tabindex");
+        this.tabpanels[i].classList.remove("is-hidden");
         if (setFocus) {
           tab.focus();
         }
       } else {
-        tab.setAttribute('aria-selected', 'false');
+        tab.setAttribute("aria-selected", "false");
         tab.tabIndex = -1;
-        this.tabpanels[i].classList.add('is-hidden');
+        this.tabpanels[i].classList.add("is-hidden");
       }
     }
   }
@@ -91,22 +91,22 @@ class TabsAutomatic {
       flag = false;
 
     switch (event.key) {
-      case 'ArrowLeft':
+      case "ArrowLeft":
         this.setSelectedToPreviousTab(tgt);
         flag = true;
         break;
 
-      case 'ArrowRight':
+      case "ArrowRight":
         this.setSelectedToNextTab(tgt);
         flag = true;
         break;
 
-      case 'Home':
+      case "Home":
         this.setSelectedTab(this.firstTab);
         flag = true;
         break;
 
-      case 'End':
+      case "End":
         this.setSelectedTab(this.lastTab);
         flag = true;
         break;
@@ -128,8 +128,8 @@ class TabsAutomatic {
 
 // Initialize tablist
 
-window.addEventListener('load', function () {
-  var tablists = document.querySelectorAll('[role=tablist].automatic');
+window.addEventListener("load", function () {
+  var tablists = document.querySelectorAll("[role=tablist].automatic");
   for (var i = 0; i < tablists.length; i++) {
     new TabsAutomatic(tablists[i]);
   }

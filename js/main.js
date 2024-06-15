@@ -1,6 +1,5 @@
-
 import { MarkDownPanel } from "./MarkDownPanel.js";
-import  * as S from "./storehouse.js";
+import * as S from "./storehouse.js";
 
 /*
 let base1 = document.querySelector("#markdown-editor1");
@@ -19,4 +18,3 @@ mp1.init("content1");
 
 //let mp3 = new MarkDownPanel("#markdown-editor3");
 //mp3.init("content3");
-

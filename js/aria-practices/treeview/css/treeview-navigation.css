@@ -1,14 +1,13 @@
-
-.page  {
+.page {
   /* display: grid; */
-  display:flex;
+  display: flex;
   flex-direction: row;
 
   grid-template-columns: auto auto;
   border: #eee solid 2px;
 }
 
-.page  nav {
+.page nav {
   margin: 0;
   padding: 6px;
   width: 17em;
@@ -16,11 +15,10 @@
   background: #eee;
 }
 
-.page  nav.focus {
+.page nav.focus {
   padding: 4px;
   border: 2px solid #005a9c;
 }
-
 
 .treeview-navigation ul,
 .treeview-navigation li {
@@ -76,11 +74,10 @@
   padding: 4px;
   padding-left: 9px;
   text-decoration: none;
-  color: #005a9c;  
+  color: #005a9c;
   border: none;
   display: block;
 }
-
 
 .treeview-navigation a[role="treeitem"][aria-current] {
   border-left: 5px solid #005a9c;

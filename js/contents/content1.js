@@ -1,7 +1,6 @@
-
 export const url = "https://marked.js.org/";
 
-export  const content  = `
+export const content = `
 # Markdown syntax guide
 
 ## Headers
@@ -70,4 +69,3 @@ ${"`"}${"`"}${"`"}
 
 This web site is using ${"`"}markedjs/marked${"`"}.
 `;
-

@@ -1,6 +1,6 @@
 import { marked } from "marked";
 
-import * as ace from 'ace-builds/src-noconflict/ace';
+import * as ace from "ace-builds/src-noconflict/ace";
 
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-idle_fingers";
@@ -14,7 +14,7 @@ import "ace-builds/src-noconflict/mode-html";
 import "flex-splitter-directive/index.js";
 import "flex-splitter-directive/styles.min.css";
 
-import * as monaco from 'monaco-editor';
+import * as monaco from "monaco-editor";
 
 export class FileTreeControl {
   constructor(markDownPanel) {
@@ -35,19 +35,19 @@ export class FileTreeControl {
     //this.query.addEventListener("keyup", this.debouncedSearch);
     //this.searchResults.addEventListener("click", this.openFoundFile);
 
-     this.editor = null;
-     this.ace_editor_use = false;
-     this.monaco_editor_use = false;
+    this.editor = null;
+    this.ace_editor_use = false;
+    this.monaco_editor_use = false;
   }
 
-  set_ace_editor () {
-     this.ace_editor_use = true;
-     this.monaco_editor_use = false;
+  set_ace_editor() {
+    this.ace_editor_use = true;
+    this.monaco_editor_use = false;
   }
 
-  set_monaco_editor () {
-     this.monaco_editor_use = true;
-     this.ace_editor_use = false;
+  set_monaco_editor() {
+    this.monaco_editor_use = true;
+    this.ace_editor_use = false;
   }
 
   openFile = ({ detail }) => {
@@ -68,14 +68,13 @@ export class FileTreeControl {
         let name_split = detail.file.name.split(".");
         //console.log("ext:", name_split[name_split.length-1]);
         if (name_split[name_split.length - 1] == "md") {
-           //console.log("md:"+ detail.file.name);
-           //console.log(contents);
+          //console.log("md:"+ detail.file.name);
+          //console.log(contents);
         }
     }
-  }
+  };
 
   openFile_org = ({ detail }) => {
-
     console.log("openFile");
 
     //this.saveButton.disabled = true;
@@ -94,7 +93,7 @@ export class FileTreeControl {
         this.fileContent.innerHTML = contents;
 
         break;
-/*
+      /*
       case "":
         //console.log("name:", detail.file.name);
         let name_split = detail.file.name.split(".");
@@ -105,24 +104,23 @@ export class FileTreeControl {
         }
 */
       default:
-        if (this.ace_editor_use ) {
-            if ( this.editor != null) {
-                this.editor.destroy() ;
-            } 
-            this.editor = ace.edit("file-content");
+        if (this.ace_editor_use) {
+          if (this.editor != null) {
+            this.editor.destroy();
+          }
+          this.editor = ace.edit("file-content");
 
-            //this.editor.setTheme("ace/theme/monokai");
-            //this.editor.setTheme("ace/theme/idle_fingers");
-            this.editor.setTheme("ace/theme/one_dark");
-            this.editor.getSession().setMode("ace/mode/python");
-            this.editor.setFontSize(18);
-            this.editor.setValue(contents) ;
-	} else if (this.monaco_editor_use ) {
-
-            //if ( this.editor != null) {
-            //    this.editor.dispose() ;
-            //} 
-       /*
+          //this.editor.setTheme("ace/theme/monokai");
+          //this.editor.setTheme("ace/theme/idle_fingers");
+          this.editor.setTheme("ace/theme/one_dark");
+          this.editor.getSession().setMode("ace/mode/python");
+          this.editor.setFontSize(18);
+          this.editor.setValue(contents);
+        } else if (this.monaco_editor_use) {
+          //if ( this.editor != null) {
+          //    this.editor.dispose() ;
+          //}
+          /*
             const myNode = document.getElementById("file-content");
 	    while (myNode.firstChild) {
 		      myNode.removeChild(myNode.lastChild);
@@ -130,53 +128,53 @@ export class FileTreeControl {
             myNode.removeAttribute("context")
 		console.dir(myNode);
 	*/
-        //    const parent = document.getElementById("file-content")
-        //    while (parent.firstChild) {
-	//		    parent.firstChild.remove()
-	//    }
-	//	parent.textContent = "";
+          //    const parent = document.getElementById("file-content")
+          //    while (parent.firstChild) {
+          //		    parent.firstChild.remove()
+          //    }
+          //	parent.textContent = "";
 
-            if ( this.editor != null) {
-                this.editor.dispose() ;
-            } 
-            var element = document.getElementById("file-content"); 
-		while (element.firstChild) { 
-			    element.removeChild(element.firstChild); 
-			    // OR 
-			//     element.firstChild.remove(); 
-			     }
-			
- 
-            this.editor = monaco.editor.create(
-              document.getElementById("file-content"),
-              {
-                value: contents,
-                //language: "javascript",
-              }
-            );
-	    
+          if (this.editor != null) {
+            this.editor.dispose();
+          }
+          var element = document.getElementById("file-content");
+          while (element.firstChild) {
+            element.removeChild(element.firstChild);
+            // OR
+            //     element.firstChild.remove();
+          }
+
+          this.editor = monaco.editor.create(
+            document.getElementById("file-content"),
+            {
+              value: contents,
+              //language: "javascript",
+            },
+          );
         } else {
-           this.fileContent.innerHTML = `<textarea>${contents}</textarea>`;
-	}
+          this.fileContent.innerHTML = `<textarea>${contents}</textarea>`;
+        }
         this.saveButton.disabled = false;
         this.saveAsButton.disabled = false;
     }
   };
 
   saveFile = () => {
-        if (!this.ace_editor_use && !this.monaco_editor_use) {
-    this.fileTree.saveFile(this.fileContent.querySelector("textarea").value);
-	} else {
-    this.fileTree.saveFile(this.editor.getValue());
-	}
+    if (!this.ace_editor_use && !this.monaco_editor_use) {
+      this.fileTree.saveFile(this.fileContent.querySelector("textarea").value);
+    } else {
+      this.fileTree.saveFile(this.editor.getValue());
+    }
   };
 
   saveFileAs = () => {
-        if (!this.ace_editor_use && !this.monaco_editor_use) {
-    this.fileTree.saveFileAs(this.fileContent.querySelector("textarea").value);
-	} else {
-    this.fileTree.saveFileAs(this.editor.getValue());
-	}
+    if (!this.ace_editor_use && !this.monaco_editor_use) {
+      this.fileTree.saveFileAs(
+        this.fileContent.querySelector("textarea").value,
+      );
+    } else {
+      this.fileTree.saveFileAs(this.editor.getValue());
+    }
   };
 
   search = async () => {
@@ -247,7 +245,7 @@ export class FileTreeControl {
   };
 
   openFileByPath = (path) => {
-      this.fileTree.openFileByPath(path);
+    this.fileTree.openFileByPath(path);
   };
 
   openFoundFile = (e) => {

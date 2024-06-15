@@ -7,7 +7,7 @@
  *       tree widget for navigational links
  */
 
-'use strict';
+"use strict";
 
 class NavigationContentGenerator {
   constructor(siteURL, siteName) {
@@ -16,7 +16,7 @@ class NavigationContentGenerator {
     this.fillerTextSentences = [];
 
     this.fillerTextSentences.push(
-      'The content on this page is associated with the <a href="$linkURL">$linkName</a> link for <a href="$siteURL">$siteName</a>.'
+      'The content on this page is associated with the <a href="$linkURL">$linkName</a> link for <a href="$siteURL">$siteName</a>.',
     );
     //  this.fillerTextSentences.push('The text content in this paragraph is filler text providing a detectable change of content when the <a href="$linkURL">$linkName</a> link is selected from the menu.  ');
     //  this.fillerTextSentences.push('<a href="$siteURL">$siteName</a> doesn\'t really exist, but the use of an organizational name is useful to provide context for the <a href="$linkURL">$linkName</a> link.  ');
@@ -24,14 +24,14 @@ class NavigationContentGenerator {
   }
 
   renderParagraph(linkURL, linkName) {
-    var content = '';
+    var content = "";
     this.fillerTextSentences.forEach(
       (s) =>
         (content += s
-          .replace('$siteName', this.siteName)
-          .replace('$siteURL', this.siteURL)
-          .replace('$linkName', linkName)
-          .replace('$linkURL', linkURL))
+          .replace("$siteName", this.siteName)
+          .replace("$siteURL", this.siteURL)
+          .replace("$linkName", linkName)
+          .replace("$linkURL", linkURL)),
     );
     return content;
   }
@@ -42,23 +42,23 @@ export class TreeViewNavigation {
     var linkURL, linkTitle;
 
     // Check whether node is a DOM element
-    if (typeof node !== 'object') {
+    if (typeof node !== "object") {
       return;
     }
 
-    document.body.addEventListener('focusin', this.onBodyFocusin.bind(this));
-    document.body.addEventListener('mousedown', this.onBodyFocusin.bind(this));
+    document.body.addEventListener("focusin", this.onBodyFocusin.bind(this));
+    document.body.addEventListener("mousedown", this.onBodyFocusin.bind(this));
 
     this.treeNode = node;
     this.navNode = node.parentElement;
 
-    this.updateCallback = callback ;
+    this.updateCallback = callback;
 
     this.treeitems = this.treeNode.querySelectorAll('[role="treeitem"]');
     for (let i = 0; i < this.treeitems.length; i++) {
       let ti = this.treeitems[i];
-      ti.addEventListener('keydown', this.onKeydown.bind(this));
-      ti.addEventListener('click', this.onLinkClick.bind(this));
+      ti.addEventListener("keydown", this.onKeydown.bind(this));
+      ti.addEventListener("click", this.onLinkClick.bind(this));
       // first tree item is in tab sequence of page
       if (i == 0) {
         ti.tabIndex = 0;
@@ -67,23 +67,23 @@ export class TreeViewNavigation {
       }
       var groupNode = this.getGroupNode(ti);
       if (groupNode) {
-        var span = ti.querySelector('span.icon');
-        span.addEventListener('click', this.onIconClick.bind(this));
+        var span = ti.querySelector("span.icon");
+        span.addEventListener("click", this.onIconClick.bind(this));
       }
     }
 
     // Initial content for page
-    if (location.href.split('#').length > 1) {
+    if (location.href.split("#").length > 1) {
       linkURL = location.href;
       linkTitle = getLinkNameFromURL(location.href);
     } else {
-      linkURL = location.href + '#home';
-      linkTitle = 'Home';
+      linkURL = location.href + "#home";
+      linkTitle = "Home";
     }
 
     this.contentGenerator = new NavigationContentGenerator(
-      '#home',
-      'Mythical University'
+      "#home",
+      "Mythical University",
     );
     this.updateContent(linkURL, linkTitle, false);
 
@@ -92,35 +92,37 @@ export class TreeViewNavigation {
         return str.charAt(0).toUpperCase() + str.slice(1);
       }
 
-      var name = url.split('#')[1];
-      if (typeof name === 'string') {
-        name = name.split('-').map(capitalize).join(' ');
+      var name = url.split("#")[1];
+      if (typeof name === "string") {
+        name = name.split("-").map(capitalize).join(" ");
       } else {
-        name = 'Home';
+        name = "Home";
       }
       return name;
     }
   }
 
   updateContent(linkURL, linkName, moveFocus) {
+    //console.log("updateContent::"+ linkURL +" > "+ linkName)
 
-    //console.log("updateContent::"+ linkURL +" > "+ linkName) 
-    
     var h1Node, paraNodes;
 
-    if (typeof moveFocus !== 'boolean') {
+    if (typeof moveFocus !== "boolean") {
       moveFocus = true;
     }
 
     // Update content area
-    h1Node = document.querySelector('.mainpage .main h1');
+    h1Node = document.querySelector(".mainpage .main h1");
     if (h1Node) {
       h1Node.textContent = linkName;
     }
-    paraNodes = document.querySelectorAll('.mainpage .main p');
+    paraNodes = document.querySelectorAll(".mainpage .main p");
     paraNodes.forEach(
       (p) =>
-        (p.innerHTML = this.contentGenerator.renderParagraph(linkURL, linkName))
+        (p.innerHTML = this.contentGenerator.renderParagraph(
+          linkURL,
+          linkName,
+        )),
     );
 
     // move focus to the content region
@@ -133,12 +135,12 @@ export class TreeViewNavigation {
     this.updateAriaCurrent(linkURL);
 
     // GS callback
-    this.updateCallback(linkURL, linkName, moveFocus) ;
+    this.updateCallback(linkURL, linkName, moveFocus);
   }
 
   getAriaCurrentURL() {
     let url = false;
-    let node = this.treeNode.querySelector('[aria-current]');
+    let node = this.treeNode.querySelector("[aria-current]");
     if (node) {
       url = node.href;
     }
@@ -146,18 +148,18 @@ export class TreeViewNavigation {
   }
 
   updateAriaCurrent(url) {
-    if (typeof url !== 'string') {
+    if (typeof url !== "string") {
       url = this.getAriaCurrentURL();
     }
 
     this.treeitems.forEach((item) => {
       if (item.href === url) {
-        item.setAttribute('aria-current', 'page');
+        item.setAttribute("aria-current", "page");
         // Make sure link is visible
         this.showTreeitem(item);
         this.setTabIndex(item);
       } else {
-        item.removeAttribute('aria-current');
+        item.removeAttribute("aria-current");
       }
     });
   }
@@ -166,7 +168,7 @@ export class TreeViewNavigation {
     var parentNode = this.getParentTreeitem(treeitem);
 
     while (parentNode) {
-      parentNode.setAttribute('aria-expanded', 'true');
+      parentNode.setAttribute("aria-expanded", "true");
       parentNode = this.getParentTreeitem(parentNode);
     }
   }
@@ -183,7 +185,7 @@ export class TreeViewNavigation {
       node = node.parentNode;
       if (node) {
         node = node.previousElementSibling;
-        if (node && node.getAttribute('role') === 'treeitem') {
+        if (node && node.getAttribute("role") === "treeitem") {
           return node;
         }
       }
@@ -195,7 +197,7 @@ export class TreeViewNavigation {
     var flag = true;
     if (this.isInSubtree(treeitem)) {
       treeitem = this.getParentTreeitem(treeitem);
-      if (!treeitem || treeitem.getAttribute('aria-expanded') === 'false') {
+      if (!treeitem || treeitem.getAttribute("aria-expanded") === "false") {
         return false;
       }
     }
@@ -204,22 +206,22 @@ export class TreeViewNavigation {
 
   isInSubtree(treeitem) {
     if (treeitem.parentNode && treeitem.parentNode.parentNode) {
-      return treeitem.parentNode.parentNode.getAttribute('role') === 'group';
+      return treeitem.parentNode.parentNode.getAttribute("role") === "group";
     }
     return false;
   }
 
   isExpandable(treeitem) {
-    return treeitem.hasAttribute('aria-expanded');
+    return treeitem.hasAttribute("aria-expanded");
   }
 
   isExpanded(treeitem) {
-    return treeitem.getAttribute('aria-expanded') === 'true';
+    return treeitem.getAttribute("aria-expanded") === "true";
   }
 
   getGroupNode(treeitem) {
     var groupNode = false;
-    var id = treeitem.getAttribute('aria-owns');
+    var id = treeitem.getAttribute("aria-owns");
     if (id) {
       groupNode = document.getElementById(id);
     }
@@ -238,23 +240,23 @@ export class TreeViewNavigation {
   }
 
   collapseTreeitem(treeitem) {
-    if (treeitem.getAttribute('aria-owns')) {
+    if (treeitem.getAttribute("aria-owns")) {
       var groupNode = document.getElementById(
-        treeitem.getAttribute('aria-owns')
+        treeitem.getAttribute("aria-owns"),
       );
       if (groupNode) {
-        treeitem.setAttribute('aria-expanded', 'false');
+        treeitem.setAttribute("aria-expanded", "false");
       }
     }
   }
 
   expandTreeitem(treeitem) {
-    if (treeitem.getAttribute('aria-owns')) {
+    if (treeitem.getAttribute("aria-owns")) {
       var groupNode = document.getElementById(
-        treeitem.getAttribute('aria-owns')
+        treeitem.getAttribute("aria-owns"),
       );
       if (groupNode) {
-        treeitem.setAttribute('aria-expanded', 'true');
+        treeitem.setAttribute("aria-expanded", "true");
       }
     }
   }
@@ -264,11 +266,11 @@ export class TreeViewNavigation {
 
     if (parentNode) {
       var siblingTreeitemNodes = parentNode.querySelectorAll(
-        ':scope > li > a[aria-expanded]'
+        ":scope > li > a[aria-expanded]",
       );
 
       for (var i = 0; i < siblingTreeitemNodes.length; i++) {
-        siblingTreeitemNodes[i].setAttribute('aria-expanded', 'true');
+        siblingTreeitemNodes[i].setAttribute("aria-expanded", "true");
       }
     }
   }
@@ -363,9 +365,9 @@ export class TreeViewNavigation {
     var tgt = event.target;
 
     if (this.treeNode.contains(tgt)) {
-      this.navNode.classList.add('focus');
+      this.navNode.classList.add("focus");
     } else {
-      this.navNode.classList.remove('focus');
+      this.navNode.classList.remove("focus");
       this.updateAriaCurrent();
     }
   }
@@ -412,7 +414,7 @@ export class TreeViewNavigation {
         event.stopPropagation();
       } else {
         if (isPrintableCharacter(key)) {
-          if (key == '*') {
+          if (key == "*") {
             this.expandAllSiblingTreeitems(tgt);
             flag = true;
           } else {
@@ -423,25 +425,25 @@ export class TreeViewNavigation {
     } else {
       switch (key) {
         // NOTE: Return key is supported through the click event
-        case ' ':
+        case " ":
           this.updateContent(tgt.href, tgt.textContent.trim());
           flag = true;
           break;
 
-        case 'Up':
-        case 'ArrowUp':
+        case "Up":
+        case "ArrowUp":
           this.setFocusToPreviousTreeitem(tgt);
           flag = true;
           break;
 
-        case 'Down':
-        case 'ArrowDown':
+        case "Down":
+        case "ArrowDown":
           this.setFocusToNextTreeitem(tgt);
           flag = true;
           break;
 
-        case 'Right':
-        case 'ArrowRight':
+        case "Right":
+        case "ArrowRight":
           if (this.isExpandable(tgt)) {
             if (this.isExpanded(tgt)) {
               this.setFocusToNextTreeitem(tgt);
@@ -452,8 +454,8 @@ export class TreeViewNavigation {
           flag = true;
           break;
 
-        case 'Left':
-        case 'ArrowLeft':
+        case "Left":
+        case "ArrowLeft":
           if (this.isExpandable(tgt) && this.isExpanded(tgt)) {
             this.collapseTreeitem(tgt);
             flag = true;
@@ -465,22 +467,22 @@ export class TreeViewNavigation {
           }
           break;
 
-        case 'Home':
+        case "Home":
           this.setFocusToTreeitem(this.treeitems[0]);
           flag = true;
           break;
 
-        case 'End':
+        case "End":
           var visibleTreeitems = this.getVisibleTreeitems();
           this.setFocusToTreeitem(
-            visibleTreeitems[visibleTreeitems.length - 1]
+            visibleTreeitems[visibleTreeitems.length - 1],
           );
           flag = true;
           break;
 
         default:
           if (isPrintableCharacter(key)) {
-            if (key == '*') {
+            if (key == "*") {
               this.expandAllSiblingTreeitems(tgt);
               flag = true;
             } else {
@@ -506,7 +508,9 @@ export class TreeViewNavigation {
  */
 
 function test_callback(linkURL, linkName, moveFocus) {
-    console.log("updateCallback::"+ linkURL +" ["+ linkName + "] focus:"+ moveFocus) 
+  console.log(
+    "updateCallback::" + linkURL + " [" + linkName + "] focus:" + moveFocus,
+  );
 }
 
 /*

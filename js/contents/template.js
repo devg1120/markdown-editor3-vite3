@@ -1,5 +1,4 @@
 // default template
-export const  content  = `
+export const content = `
 
 `;
-
