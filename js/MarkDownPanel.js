@@ -702,8 +702,7 @@ export class MarkDownPanel {
         };
     }
 
-    async openFileHandle(fh) {
-
+    async openFileHandle(detail ) {
 	    /*
         const pickerOpts = {
             types: [
@@ -722,8 +721,10 @@ export class MarkDownPanel {
         [this.fileHandle] = await window.showOpenFilePicker(pickerOpts);
          */
 
-        this.fileHandle = fh;
-        //console.log("*** MarkDownPanel:fn: ", this.fileHandle);
+        this.detail = detail;
+        this.fileHandle = detail.handle;
+        console.log("*** MarkDownPanel:fn: ", this.fileHandle);
+        console.log("*** MarkDownPanel:fn: ", this.detail.path);
 
         this.filepath = await this.fileHandle.getFile();
 
@@ -738,7 +739,7 @@ export class MarkDownPanel {
             let input = reader.result;
             //presetValue(input);
             //presetValue(editor, input);
-            that.editor1.presetValue(input);
+            that.editor1.presetValue(input, that.detail.path);
             document.querySelectorAll(this.parent_id + " " + ".column").forEach((element) => {
                 element.scrollTo({ top: 0 });
             });

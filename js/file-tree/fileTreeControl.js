@@ -53,7 +53,9 @@ export class FileTreeControl {
   openFile = ({ detail }) => {
     //console.log("openFile");
     //console.log(detail.handle);
-    this.markDownPanel.openFileHandle(detail.handle);
+    //let currentPath = await this.fileTree.currentDirectory.handle.resolve(detail,handle) ;
+    //this.markDownPanel.openFileHandle(detail.handle);
+    this.markDownPanel.openFileHandle(detail);
 
     //this.saveButton.disabled = true;
     //this.saveAsButton.disabled = true;

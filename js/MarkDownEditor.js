@@ -233,7 +233,27 @@ export class MarkDownEditor {
 		    }
                     //<img alt="CAT" src="/images/cat.svg">
 		    if (child.tagName == 'IMG') {
-			    console.log("IMG",child);
+			    console.log("IMG",child.getAttribute("src"));
+			    let src = child.getAttribute("src");
+			    if (that.filepath) {
+			        let dir = that.filepath.split('/');
+                                let B_path = "";
+			        for ( let i = 0 ; i < dir.length -1; i++) {
+                                    console.log(dir[i])
+                                    B_path  = B_path + "/" + dir[i]
+			        }
+			        //child.setAttribute("src", "/development-diary" + src);
+				 if (! src.startsWith(B_path)) {
+				     if (src.startsWith(".")) {
+                                          src = src.slice(1);
+				     }
+				     if (!src.startsWith("/")) {
+                                          src = "/" + src;
+				     }
+                                    
+			             child.setAttribute("src", B_path + src);
+				 }
+			    }
 		    }
 
             }
@@ -602,7 +622,9 @@ var char = string.indexOf(index) ;
     }
 
     //let presetValue = (value) => {
-    presetValue(value) {
+    presetValue(value,  filepath) {
+	    console.log("filepath", filepath);
+        this.filepath = filepath;
         this.editor.setValue(value);
         this.editor.moveCursorTo(0, 0);
         this.editor.focus();
