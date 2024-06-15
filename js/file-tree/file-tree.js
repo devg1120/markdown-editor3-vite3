@@ -363,7 +363,7 @@ export class FileTree extends HTMLElement {
     this.currentFileHandle = handle;
 
     /* TODO */
-    //this.DirectoryHandle = this.currentDirectory.handle;
+    this.DirectoryHandle = this.currentDirectory.handle;
 
     await this.getReadWritePermission(handle);
 
