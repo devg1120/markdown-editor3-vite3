@@ -330,7 +330,7 @@ export class FileTree extends HTMLElement {
 
   async openFileByPath(filePath) {
     //console.log("openFileByPath ",this.currentDirectory);
-    //console.log("openFileByPath :",filePath);
+    console.log("openFileByPath :",filePath);
     //const [_, {handle}] = this.findEntry(filePath, this.currentDirectory);
     //const handle =   this.currentDirectory.handle.getFileHandle(filePath.slice(1));
     let path_array = filePath.split('/');
@@ -342,10 +342,17 @@ export class FileTree extends HTMLElement {
         path_array.shift();
     } else {
     }
-    console.log("DirectoryHandle:",this.DirectoryHandle);
-    console.log("path_array:",path_array);
-    //const handle =   await this.getFileHandleByPath(this.currentDirectory.handle, path_array);
-    const handle =   await this.getFileHandleByPath(this.DirectoryHandle, path_array);
+	  console.log(path_array);
+    let top_path = this.currentPath.slice(0,-1);
+    let path_c_array = top_path.concat(path_array);
+
+    console.log("resolve", this.currentPath);
+    console.log("top_path", top_path);
+    console.log("path", path_c_array);
+    //console.log("DirectoryHandle:",this.DirectoryHandle);
+    //console.log("path_array:",path_array);
+    const handle =   await this.getFileHandleByPath(this.currentDirectory.handle, path_c_array);
+    //const handle =   await this.getFileHandleByPath(this.DirectoryHandle, path_array);
 
     console.log("Handle",handle);
     //console.log("DirctoryHandle",this.currentDirectory.path);
@@ -361,9 +368,11 @@ export class FileTree extends HTMLElement {
   async openFileHandle({path, handle}) {
     //console.log("openFileHandle",handle);
     this.currentFileHandle = handle;
-
+    //console.log("resolve",this.currentDirectory.handle.resolve(handle) );
+    this.currentPath = await this.currentDirectory.handle.resolve(handle) ;
+    //console.log("resolve", this.currentPath);
     /* TODO */
-    this.DirectoryHandle = this.currentDirectory.handle;
+    //this.DirectoryHandle = this.currentDirectory.handle;
 
     await this.getReadWritePermission(handle);
 
@@ -510,7 +519,7 @@ export class FileTree extends HTMLElement {
       //	      sr.removeChild(sr.lastElementChild);
       //     }
 
-      this.currentDirectoryHandle = await window.showDirectoryPicker();
+      this.currentDirectoryHandle = await window.showDirectoryPicker({ mode: "readwrite" });
       //console.dir(this.currentDirectoryHandle.name);
 
       //let top = document.querySelector("#topdir");
@@ -543,7 +552,7 @@ export class FileTree extends HTMLElement {
     };
 
     this.currentDirectory = await this.iterateFiles(this.currentDirectoryHandle, dir);
-    this.DirectoryHandle = this.currentDirectory.handle;
+    //this.DirectoryHandle = this.currentDirectory.handle;
     this.loading = false;
 
     this.listFiles(this.currentDirectory, this.fileList);

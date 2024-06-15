@@ -231,6 +231,11 @@ export class MarkDownEditor {
                             });
 
 		    }
+                    //<img alt="CAT" src="/images/cat.svg">
+		    if (child.tagName == 'IMG') {
+			    console.log("IMG",child);
+		    }
+
             }
 
             function allDescendants (node) {
