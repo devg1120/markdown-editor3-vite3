@@ -379,8 +379,6 @@ export class MarkDownPanel {
 	`;
   }
   toc_switch() {
-    //console.log("toc_switch");
-    //console.log(this.toc_toggle.checked);
 
     var toc1 = document.querySelector(this.parent_id + " " + "#toc1");
     var toc_separator1 = document.querySelector(
@@ -425,10 +423,10 @@ export class MarkDownPanel {
   }
 
   content_change() {
-    //console.log(contents_select.selectedIndex);
-    //console.log(contents_select.value);
+      console.log("presetValue call 5");
     this.editor1.presetValue(
       this.contents.getContent(this.contents_select.value),
+	    this.detail.path
     );
   }
 
@@ -453,18 +451,8 @@ export class MarkDownPanel {
    }
  */
     const stylesheet = document.styleSheets[5];
-    //console.dir(stylesheet);
     const roule33 = document.styleSheets[5].cssRules[33];
     const roule34 = document.styleSheets[5].cssRules[34];
-    //console.log(roule33);
-    //console.log(roule34);
-    //console.log(roule33.selectorText);
-    //console.log(roule33.cssText);
-    //console.log(roule34.selectorText);
-    //console.log(roule34.cssText);
-    //roule33.cssText = "ace_cursor-layer .ace_cursor { border-left: 5px solid blue; color: blue !important; }";
-    //roule34.cssText = ".ace_cursor-layer.ace_overwrite-cursors .ace_cursor { background-color: blue; }";
-
     roule33.style.borderLeft = "5px solid yellow";
     roule33.style.borderLeftColor = "yellow";
     roule33.style.color = "yellow";
@@ -485,7 +473,6 @@ export class MarkDownPanel {
   }
 
   cursor_color_change() {
-    //console.log("cursor_color:" + this.cursor_color_select.value);
     let cursor_color = this.cursor_color_select.value;
 
     let style_order = [
@@ -505,18 +492,14 @@ export class MarkDownPanel {
       },
     ];
     for (let i = 0; i < style_order.length; i++) {
-      //console.log(">>"+style_order[i].selector);
       let roule = this.getRoule(style_order[i].selector);
       if (roule == null) {
         console.log("css null:" + style_order[i].selector);
       } else {
-        console.log(roule);
         for (name in style_order[i].style) {
           let value = style_order[i].style[name];
-          //console.log(name + ":" + value);
           value = value.replace("$", cursor_color);
           let cmd = "roule.style." + name + '="' + value + '";';
-          //console.log(cmd);
           eval(cmd);
         }
       }
@@ -524,7 +507,6 @@ export class MarkDownPanel {
   }
 
   separator_color_change() {
-    console.log("separator_color:" + this.separator_color_select.value);
     let _color = this.separator_color_select.value;
 
     let style_order = [
@@ -536,18 +518,14 @@ export class MarkDownPanel {
       },
     ];
     for (let i = 0; i < style_order.length; i++) {
-      //console.log(">>"+style_order[i].selector);
       let roule = this.getRoule(style_order[i].selector);
       if (roule == null) {
         console.log("css null:" + style_order[i].selector);
       } else {
-        console.log(roule);
         for (name in style_order[i].style) {
           let value = style_order[i].style[name];
-          //console.log(name + ":" + value);
           value = value.replace("$", _color);
           let cmd = "roule.style." + name + '="' + value + '";';
-          //console.log(cmd);
           eval(cmd);
         }
       }
@@ -555,7 +533,6 @@ export class MarkDownPanel {
   }
 
   fontsize_change() {
-    //console.log("fontsize:" + fontsize_number.value);
     var size = Number(this.fontsize_number.value);
     this.editor1.setFontSize(size);
     this.editor2.setFontSize(size);
@@ -672,7 +649,6 @@ export class MarkDownPanel {
     }
   }
   schemeChange(e) {
-    console.log(this.schemeToggl_button.textContent);
     if (this.schemeToggl_button.textContent == "Dark") {
       this.schemeToggl_button.textContent = "Light";
 
@@ -720,6 +696,7 @@ export class MarkDownPanel {
       let input = reader.result;
       //presetValue(input);
       //presetValue(editor, input);
+      console.log("presetValue call 1");
       that.editor1.presetValue(input);
       document
         .querySelectorAll(this.parent_id + " " + ".column")
@@ -732,6 +709,7 @@ export class MarkDownPanel {
   }
 
   async openFileHandle(detail) {
+    console.log("openFIleHandle detail: ", detail);
     /*
         const pickerOpts = {
             types: [
@@ -768,6 +746,7 @@ export class MarkDownPanel {
       let input = reader.result;
       //presetValue(input);
       //presetValue(editor, input);
+      console.log("presetValue call 2", that.detail);
       that.editor1.presetValue(input, that.detail.path);
       document
         .querySelectorAll(this.parent_id + " " + ".column")
@@ -843,6 +822,7 @@ export class MarkDownPanel {
       }
     }
     //presetValue(defaultInput);
+      console.log("presetValue call 3");
     presetValue(editor, defaultInput);
     document
       .querySelectorAll(this.parent_id + " " + ".column")
@@ -1118,6 +1098,7 @@ export class MarkDownPanel {
     );
     //editor1.presetValue(defaultInput);
     //this.editor1.presetValue(this.contents.getContent("content1"));
+      console.log("presetValue call 4");
     this.editor1.presetValue(this.contents.getContent(content));
     this.contents_select.options[1].selected = true;
 

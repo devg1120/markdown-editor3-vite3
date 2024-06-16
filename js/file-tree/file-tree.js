@@ -367,18 +367,26 @@ export class FileTree extends HTMLElement {
     //const handle =   await this.getFileHandleByPath(this.DirectoryHandle, path_array);
 
     console.log("Handle", handle);
-    //console.log("DirctoryHandle",this.currentDirectory.path);
-    //let fullPath = this.DirectoryHandle.path  + filePath;
-    //	  console.log("fullpath:", fullPath);
+    console.log("filePath", filePath);
+    console.log("DirctoryHandle",this.currentDirectory.path);
+    let path_s = await this.currentDirectory.handle.resolve(handle);
+
+    let path =  this.currentDirectory.path;
+    for ( let i=0 ; i < path_s.length; i++) {
+             path += "/" + path_s[i];
+    }
+    //let path = this.currentDirectory.path  + filePath;
+    	  console.log("fullpath:", path);
     if (handle) {
       //await this.openFileHandle(handle);
-      await this.openFileHandle({ filePath, handle });
+      //await this.openFileHandle({ filePath, handle });
+      await this.openFileHandle({ path, handle });
       this.highlightFile(this.currentDirectory.path + filePath);
     }
   }
 
-  async openFileHandle({ path, handle }) {
-    //console.log("openFileHandle",handle);
+  async openFileHandle( { path, handle }) {
+    console.log("openFileHandle",path, handle);
     this.currentFileHandle = handle;
     //console.log("resolve",this.currentDirectory.handle.resolve(handle) );
     this.currentPath = await this.currentDirectory.handle.resolve(handle);

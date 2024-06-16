@@ -198,6 +198,7 @@ export class MarkDownEditor {
   }
 
   convert(id, markdown) {
+    console.log("convert");
     let that = this;
     function href_jump(e) {
       console.log("href_jump");
@@ -218,10 +219,10 @@ export class MarkDownEditor {
       if (child.tagName == "IMG") {
         //console.log("IMG",child.getAttribute("src"));
         let src = child.getAttribute("src");
-        if (that.filepath) {
           if (src.startsWith("http")) {
             return;
           }
+        if (that.filepath) {
           let dir = that.filepath.split("/");
           let B_path = "";
           for (let i = 0; i < dir.length - 1; i++) {
